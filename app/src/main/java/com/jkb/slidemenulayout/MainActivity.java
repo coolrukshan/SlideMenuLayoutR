@@ -7,15 +7,17 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
 import com.jkb.slidemenu.SlideMenuLayout;
+import com.jkb.slidemenu.SlideMenuListener;
 import com.jkb.slidemenulayout.adapter.ContentAdapter;
 import com.jkb.slidemenulayout.adapter.SlideLeftAdapter;
 import com.jkb.slidemenulayout.adapter.SlideRightMenuAdapter;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,SlideMenuListener {
 
     //ui
     private SlideMenuLayout slideMenuLayout;
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void initView() {
         slideMenuLayout = (SlideMenuLayout) findViewById(R.id.mainSlideMenu);
-
+        slideMenuLayout.setSlideMenuListener(this);
         //right
         TabLayout slideTabLayout = (TabLayout) findViewById(R.id.fmr_tab);
         ViewPager slideViewPager = (ViewPager) findViewById(R.id.fmr_vp);
@@ -89,5 +91,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void onSlideMenuFinishChanging(MenuType menuType, boolean status) {
+
     }
 }

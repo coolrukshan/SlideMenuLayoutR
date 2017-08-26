@@ -9,7 +9,6 @@ import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +47,8 @@ public class SlideMenuLayout extends ViewGroup implements SlideMenuAction {
     private boolean mTriggerSlideRight;
     //ui
     private Paint mContentShadowPaint;
+    //li
+    private SlideMenuListener mSlideMenuListener;
 
     public SlideMenuLayout(Context context) {
         this(context, null);
@@ -58,6 +59,10 @@ public class SlideMenuLayout extends ViewGroup implements SlideMenuAction {
 
     }
 
+    public void setSlideMenuListener(SlideMenuListener slideMenuListener) {
+        this.mSlideMenuListener = slideMenuListener;
+    }
+
     public SlideMenuLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         screenWidth = getScreenWidth(context);
@@ -65,6 +70,7 @@ public class SlideMenuLayout extends ViewGroup implements SlideMenuAction {
         initAttrs(attrs);//初始化属性
         initContentShadowPaint();
         mScroller = new Scroller(context);
+
 
     }
 
@@ -338,6 +344,7 @@ public class SlideMenuLayout extends ViewGroup implements SlideMenuAction {
                 }
             }
         }
+
     }
 
     /**
@@ -375,6 +382,7 @@ public class SlideMenuLayout extends ViewGroup implements SlideMenuAction {
                 }
             }
         }
+
     }
 
     /**
@@ -641,6 +649,7 @@ public class SlideMenuLayout extends ViewGroup implements SlideMenuAction {
         if (mSlideMode == SLIDE_MODE_RIGHT) return;
         mTriggerSlideLeft = true;
         smoothScrollTo(-mSlideWidth, 0);
+        mSlideMenuListener.onSlideMenuFinishChanging(SlideMenuListener.MenuType.LEFT,mTriggerSlideLeft);
     }
 
     @Override
@@ -648,6 +657,7 @@ public class SlideMenuLayout extends ViewGroup implements SlideMenuAction {
         if (mSlideMode == SLIDE_MODE_RIGHT) return;
         mTriggerSlideLeft = false;
         smoothScrollTo(0, 0);
+        mSlideMenuListener.onSlideMenuFinishChanging(SlideMenuListener.MenuType.LEFT,mTriggerSlideLeft);
     }
 
     @Override
